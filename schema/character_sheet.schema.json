@@ -277,12 +277,12 @@
         },
         "spell_save_dc": {
           "type": "integer",
-          "minimum": 1,
+          "minimum": 0,
           "maximum": 30
         },
         "spell_attack_bonus": {
           "type": "integer",
-          "minimum": -10,
+          "minimum": -20,
           "maximum": 20
         },
         "misc_bonus": {

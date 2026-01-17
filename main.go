@@ -61,13 +61,16 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
 	
-	// Validate that is has the starting information that is necessary
 	schema, err := loadSchema("schema/character_sheet.schema.json")
 	if err != nil {
 		panic(err)
 	}
 	schema.Validate(&characterSheetJsonInstance)
+	
+	// Validate that is has the starting information that is necessary
+
 
 	// Make a copy of the YAML and fill it in with the available info
 
