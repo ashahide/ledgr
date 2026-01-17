@@ -62,13 +62,15 @@ func main() {
 		panic(err)
 	}
 
-	
+	// Load json schema
 	schema, err := loadSchema("schema/character_sheet.schema.json")
 	if err != nil {
 		panic(err)
 	}
+
+	// Validate schema
 	schema.Validate(&characterSheetJsonInstance)
-	
+
 	// Validate that is has the starting information that is necessary
 
 
