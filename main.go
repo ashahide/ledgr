@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 	"encoding/json"
+	"fmt"
 
 	"gopkg.in/yaml.v3"
 	"github.com/santhosh-tekuri/jsonschema/v5"
@@ -72,6 +73,9 @@ func main() {
 	schema.Validate(&characterSheetJsonInstance)
 
 	// Validate that is has the starting information that is necessary
+	data, err := json.Marshal(characterSheetJsonInstance)
+	
+	fmt.Println(string(data))
 
 
 	// Make a copy of the YAML and fill it in with the available info

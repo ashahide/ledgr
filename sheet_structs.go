@@ -20,7 +20,7 @@ ROOT CHARACTER DOCUMENT
 */
 
 type CharacterSheet struct {
-	SchemaVersion uint16 `yaml:"schema_version,omitempty" json:"schema_version,omitempty"`
+	SchemaVersion uint16 `yaml:"schema_version" json:"schema_version"`
 
 	Basics       CharacterBasicStats `yaml:"basics" json:"basics"`
 	Attributes   AttributeStats      `yaml:"attributes" json:"attributes"`
@@ -29,10 +29,10 @@ type CharacterSheet struct {
 	Health       HealthStats         `yaml:"health" json:"health"`
 
 	// Combat contains AC, initiative, and speed values.
-	Combat CombatStats `yaml:"combat,omitempty" json:"combat,omitempty"`
+	Combat CombatStats `yaml:"combat" json:"combat"`
 
 	// Spellcasting is omitted for non-spellcasters.
-	Spellcasting SpellcastingStats `yaml:"spellcasting,omitempty" json:"spellcasting,omitempty"`
+	Spellcasting SpellcastingStats `yaml:"spellcasting" json:"spellcasting"`
 }
 
 /*
@@ -43,11 +43,11 @@ BASIC CHARACTER METADATA
 
 type CharacterBasicStats struct {
 	Name      string `yaml:"name" json:"name"`
-	Age       uint16 `yaml:"age,omitempty" json:"age,omitempty"`
+	Age       uint16 `yaml:"age" json:"age"`
 	Class     string `yaml:"class" json:"class"`
 	Level     uint8  `yaml:"level" json:"level"`
 	Race      string `yaml:"race" json:"race"`
-	Alignment string `yaml:"alignment,omitempty" json:"alignment,omitempty"`
+	Alignment string `yaml:"alignment" json:"alignment"`
 }
 
 /*
@@ -58,7 +58,7 @@ ABILITY SCORES
 
 type SingleAttribute struct {
 	Score    uint8 `yaml:"score" json:"score"`
-	Modifier *int8 `yaml:"modifier,omitempty" json:"modifier,omitempty"`
+	Modifier *int8 `yaml:"modifier" json:"modifier"`
 }
 
 type AttributeStats struct {
@@ -77,10 +77,10 @@ SAVING THROWS
 */
 
 type SingleSavingThrow struct {
-	Proficient bool  `yaml:"proficient,omitempty" json:"proficient,omitempty"`
-	Expertise  bool  `yaml:"expertise,omitempty" json:"expertise,omitempty"`
-	MiscBonus  int8  `yaml:"misc_bonus,omitempty" json:"misc_bonus,omitempty"`
-	Modifier   *int8 `yaml:"modifier,omitempty" json:"modifier,omitempty"`
+	Proficient bool  `yaml:"proficient" json:"proficient"`
+	Expertise  bool  `yaml:"expertise" json:"expertise"`
+	MiscBonus  int8  `yaml:"misc_bonus" json:"misc_bonus"`
+	Modifier   *int8 `yaml:"modifier" json:"modifier"`
 }
 
 type SavingThrowStats struct {
@@ -99,11 +99,11 @@ SKILLS
 */
 
 type SingleSkill struct {
-	Proficient       bool   `yaml:"proficient,omitempty" json:"proficient,omitempty"`
-	Expertise        bool   `yaml:"expertise,omitempty" json:"expertise,omitempty"`
-	MiscBonus        int8   `yaml:"misc_bonus,omitempty" json:"misc_bonus,omitempty"`
-	RelatedAttribute string `yaml:"related_attribute,omitempty" json:"related_attribute,omitempty"`
-	Modifier         *int8  `yaml:"modifier,omitempty" json:"modifier,omitempty"`
+	Proficient       bool   `yaml:"proficient" json:"proficient"`
+	Expertise        bool   `yaml:"expertise" json:"expertise"`
+	MiscBonus        int8   `yaml:"misc_bonus" json:"misc_bonus"`
+	RelatedAttribute string `yaml:"related_attribute" json:"related_attribute"`
+	Modifier         *int8  `yaml:"modifier" json:"modifier"`
 }
 
 type SkillStats struct {
@@ -134,9 +134,9 @@ HEALTH
 */
 
 type HealthStats struct {
-	Current uint16 `yaml:"current,omitempty" json:"current,omitempty"`
-	Max     uint16 `yaml:"max,omitempty" json:"max,omitempty"`
-	Temp    uint16 `yaml:"temp,omitempty" json:"temp,omitempty"`
+	Current uint16 `yaml:"current" json:"current"`
+	Max     uint16 `yaml:"max" json:"max"`
+	Temp    uint16 `yaml:"temp" json:"temp"`
 }
 
 /*
@@ -146,27 +146,27 @@ COMBAT / DEFENSE / MOVEMENT
 */
 
 type SpeedStats struct {
-	Walk   uint16 `yaml:"walk,omitempty" json:"walk,omitempty"`
-	Fly    uint16 `yaml:"fly,omitempty" json:"fly,omitempty"`
-	Swim   uint16 `yaml:"swim,omitempty" json:"swim,omitempty"`
-	Climb  uint16 `yaml:"climb,omitempty" json:"climb,omitempty"`
-	Burrow uint16 `yaml:"burrow,omitempty" json:"burrow,omitempty"`
+	Walk   uint16 `yaml:"walk" json:"walk"`
+	Fly    uint16 `yaml:"fly" json:"fly"`
+	Swim   uint16 `yaml:"swim" json:"swim"`
+	Climb  uint16 `yaml:"climb" json:"climb"`
+	Burrow uint16 `yaml:"burrow" json:"burrow"`
 }
 
 type InitiativeStats struct {
-	MiscBonus int8  `yaml:"misc_bonus,omitempty" json:"misc_bonus,omitempty"`
-	Total     *int8 `yaml:"total,omitempty" json:"total,omitempty"`
+	MiscBonus int8  `yaml:"misc_bonus" json:"misc_bonus"`
+	Total     *int8 `yaml:"total" json:"total"`
 }
 
 type ArmorClassStats struct {
-	MiscBonus int8   `yaml:"misc_bonus,omitempty" json:"misc_bonus,omitempty"`
-	Total     *uint8 `yaml:"total,omitempty" json:"total,omitempty"`
+	MiscBonus int8   `yaml:"misc_bonus" json:"misc_bonus"`
+	Total     *uint8 `yaml:"total" json:"total"`
 }
 
 type CombatStats struct {
-	ArmorClass ArmorClassStats `yaml:"armor_class,omitempty" json:"armor_class,omitempty"`
-	Initiative InitiativeStats `yaml:"initiative,omitempty" json:"initiative,omitempty"`
-	Speed      SpeedStats      `yaml:"speed,omitempty" json:"speed,omitempty"`
+	ArmorClass ArmorClassStats `yaml:"armor_class" json:"armor_class"`
+	Initiative InitiativeStats `yaml:"initiative" json:"initiative"`
+	Speed      SpeedStats      `yaml:"speed" json:"speed"`
 }
 
 /*
@@ -176,8 +176,8 @@ SPELLCASTING STATS
 */
 
 type SpellcastingStats struct {
-	SpellcastingAbility string `yaml:"spellcasting_ability,omitempty" json:"spellcasting_ability,omitempty"`
-	SpellSaveDC         *int8  `yaml:"spell_save_dc,omitempty" json:"spell_save_dc,omitempty"`
-	SpellAttackBonus    *int8  `yaml:"spell_attack_bonus,omitempty" json:"spell_attack_bonus,omitempty"`
-	MiscBonus           int8   `yaml:"misc_bonus,omitempty" json:"misc_bonus,omitempty"`
+	SpellcastingAbility string `yaml:"spellcasting_ability" json:"spellcasting_ability"`
+	SpellSaveDC         *int8  `yaml:"spell_save_dc" json:"spell_save_dc"`
+	SpellAttackBonus    *int8  `yaml:"spell_attack_bonus" json:"spell_attack_bonus"`
+	MiscBonus           int8   `yaml:"misc_bonus" json:"misc_bonus"`
 }
