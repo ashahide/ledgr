@@ -1,3 +1,5 @@
+package main
+
 /*
 Package ledgr defines the canonical data model for a YAML-based
 D&D 5e character sheet.
