@@ -1,0 +1,296 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/ledgr/character.schema.json",
+  "title": "Ledgr D&D 5e Character Sheet",
+  "type": "object",
+  "required": [
+    "basics",
+    "attributes",
+    "saving_throws",
+    "skills",
+    "health"
+  ],
+  "additionalProperties": false,
+
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+
+    "basics": { "$ref": "#/$defs/CharacterBasicStats" },
+    "attributes": { "$ref": "#/$defs/AttributeStats" },
+    "saving_throws": { "$ref": "#/$defs/SavingThrowStats" },
+    "skills": { "$ref": "#/$defs/SkillStats" },
+    "health": { "$ref": "#/$defs/HealthStats" },
+
+    "combat": { "$ref": "#/$defs/CombatStats" },
+    "spellcasting": { "$ref": "#/$defs/SpellcastingStats" }
+  },
+
+  "$defs": {
+    "CharacterBasicStats": {
+      "type": "object",
+      "required": ["name", "class", "level", "race"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "age": { "type": "integer", "minimum": 0 },
+        "class": { "type": "string", "minLength": 1 },
+        "level": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 20
+        },
+        "race": { "type": "string", "minLength": 1 },
+        "alignment": { "type": "string" }
+      }
+    },
+
+    "SingleAttribute": {
+      "type": "object",
+      "required": ["score"],
+      "additionalProperties": false,
+      "properties": {
+        "score": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 30
+        },
+        "modifier": {
+          "type": "integer",
+          "minimum": -10,
+          "maximum": 10
+        }
+      }
+    },
+
+    "AttributeStats": {
+      "type": "object",
+      "required": [
+        "strength",
+        "dexterity",
+        "constitution",
+        "intelligence",
+        "wisdom",
+        "charisma"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "strength": { "$ref": "#/$defs/SingleAttribute" },
+        "dexterity": { "$ref": "#/$defs/SingleAttribute" },
+        "constitution": { "$ref": "#/$defs/SingleAttribute" },
+        "intelligence": { "$ref": "#/$defs/SingleAttribute" },
+        "wisdom": { "$ref": "#/$defs/SingleAttribute" },
+        "charisma": { "$ref": "#/$defs/SingleAttribute" }
+      }
+    },
+
+    "SingleSavingThrow": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "proficient": { "type": "boolean" },
+        "expertise": { "type": "boolean" },
+        "misc_bonus": {
+          "type": "integer",
+          "minimum": -20,
+          "maximum": 20
+        },
+        "modifier": {
+          "type": "integer",
+          "minimum": -20,
+          "maximum": 20
+        }
+      }
+    },
+
+    "SavingThrowStats": {
+      "type": "object",
+      "required": [
+        "strength",
+        "dexterity",
+        "constitution",
+        "intelligence",
+        "wisdom",
+        "charisma"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "strength": { "$ref": "#/$defs/SingleSavingThrow" },
+        "dexterity": { "$ref": "#/$defs/SingleSavingThrow" },
+        "constitution": { "$ref": "#/$defs/SingleSavingThrow" },
+        "intelligence": { "$ref": "#/$defs/SingleSavingThrow" },
+        "wisdom": { "$ref": "#/$defs/SingleSavingThrow" },
+        "charisma": { "$ref": "#/$defs/SingleSavingThrow" }
+      }
+    },
+
+    "SingleSkill": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "proficient": { "type": "boolean" },
+        "expertise": { "type": "boolean" },
+        "misc_bonus": {
+          "type": "integer",
+          "minimum": -20,
+          "maximum": 20
+        },
+        "related_attribute": {
+          "type": "string",
+          "enum": [
+            "strength",
+            "dexterity",
+            "constitution",
+            "intelligence",
+            "wisdom",
+            "charisma"
+          ]
+        },
+        "modifier": {
+          "type": "integer",
+          "minimum": -20,
+          "maximum": 20
+        }
+      }
+    },
+
+    "SkillStats": {
+      "type": "object",
+      "required": [
+        "acrobatics",
+        "animal_handling",
+        "arcana",
+        "athletics",
+        "deception",
+        "history",
+        "insight",
+        "intimidation",
+        "investigation",
+        "medicine",
+        "nature",
+        "perception",
+        "performance",
+        "persuasion",
+        "religion",
+        "sleight_of_hand",
+        "stealth",
+        "survival"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "acrobatics": { "$ref": "#/$defs/SingleSkill" },
+        "animal_handling": { "$ref": "#/$defs/SingleSkill" },
+        "arcana": { "$ref": "#/$defs/SingleSkill" },
+        "athletics": { "$ref": "#/$defs/SingleSkill" },
+        "deception": { "$ref": "#/$defs/SingleSkill" },
+        "history": { "$ref": "#/$defs/SingleSkill" },
+        "insight": { "$ref": "#/$defs/SingleSkill" },
+        "intimidation": { "$ref": "#/$defs/SingleSkill" },
+        "investigation": { "$ref": "#/$defs/SingleSkill" },
+        "medicine": { "$ref": "#/$defs/SingleSkill" },
+        "nature": { "$ref": "#/$defs/SingleSkill" },
+        "perception": { "$ref": "#/$defs/SingleSkill" },
+        "performance": { "$ref": "#/$defs/SingleSkill" },
+        "persuasion": { "$ref": "#/$defs/SingleSkill" },
+        "religion": { "$ref": "#/$defs/SingleSkill" },
+        "sleight_of_hand": { "$ref": "#/$defs/SingleSkill" },
+        "stealth": { "$ref": "#/$defs/SingleSkill" },
+        "survival": { "$ref": "#/$defs/SingleSkill" }
+      }
+    },
+
+    "HealthStats": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "current": { "type": "integer", "minimum": 0 },
+        "max": { "type": "integer", "minimum": 0 },
+        "temp": { "type": "integer", "minimum": 0 }
+      }
+    },
+
+    "SpeedStats": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "walk": { "type": "integer", "minimum": 0 },
+        "fly": { "type": "integer", "minimum": 0 },
+        "swim": { "type": "integer", "minimum": 0 },
+        "climb": { "type": "integer", "minimum": 0 },
+        "burrow": { "type": "integer", "minimum": 0 }
+      }
+    },
+
+    "InitiativeStats": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "misc_bonus": {
+          "type": "integer",
+          "minimum": -20,
+          "maximum": 20
+        },
+        "total": {
+          "type": "integer",
+          "minimum": -20,
+          "maximum": 20
+        }
+      }
+    },
+
+    "ArmorClassStats": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "misc_bonus": {
+          "type": "integer",
+          "minimum": -20,
+          "maximum": 20
+        },
+        "total": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 40
+        }
+      }
+    },
+
+    "CombatStats": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "armor_class": { "$ref": "#/$defs/ArmorClassStats" },
+        "initiative": { "$ref": "#/$defs/InitiativeStats" },
+        "speed": { "$ref": "#/$defs/SpeedStats" }
+      }
+    },
+
+    "SpellcastingStats": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "spellcasting_ability": {
+          "type": "string",
+          "enum": ["intelligence", "wisdom", "charisma"]
+        },
+        "spell_save_dc": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 30
+        },
+        "spell_attack_bonus": {
+          "type": "integer",
+          "minimum": -10,
+          "maximum": 20
+        },
+        "misc_bonus": {
+          "type": "integer",
+          "minimum": -20,
+          "maximum": 20
+        }
+      }
+    }
+  }
+}

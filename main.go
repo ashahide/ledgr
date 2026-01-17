@@ -1,12 +1,45 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"encoding/json"
 
 	"gopkg.in/yaml.v3"
+	"github.com/santhosh-tekuri/jsonschema/v5"
 )
+
+
+func loadSchema(schemaPath string) (*jsonschema.Schema, error) {
+	compiler := jsonschema.NewCompiler()
+
+	// Register the schema file
+	f, err := os.Open(schemaPath)
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+
+	if err := compiler.AddResource(schemaPath, f); err != nil {
+		return nil, err
+	}
+
+	// Compile it
+	return compiler.Compile(schemaPath)
+}
+
+func sheetToJSONInstance(sheet CharacterSheet) (any, error) {
+	data, err := json.Marshal(sheet)
+	if err != nil {
+		return nil, err
+	}
+
+	var instance any
+	if err := json.Unmarshal(data, &instance); err != nil {
+		return nil, err
+	}
+
+	return instance, nil
+}
 
 func main() {
 	
@@ -24,13 +57,17 @@ func main() {
 	}
 
 	// Convert to a json
-	characterSheetJson, err := json.MarshalIndent(characterSheet, "", "  ")
+	characterSheetJsonInstance, err := sheetToJSONInstance(characterSheet)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(string(characterSheetJson))
-
+	
 	// Validate that is has the starting information that is necessary
+	schema, err := loadSchema("schema/character_sheet.schema.json")
+	if err != nil {
+		panic(err)
+	}
+	schema.Validate(&characterSheetJsonInstance)
 
 	// Make a copy of the YAML and fill it in with the available info
 
