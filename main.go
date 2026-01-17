@@ -64,7 +64,7 @@ func main() {
 	}
 
 	// Load json schema
-	schema, err := loadSchema("schema/character_sheet.schema.json")
+	schema, err := loadSchema("assets/schema/character_sheet.schema.json")
 	if err != nil {
 		panic(err)
 	}
@@ -77,8 +77,8 @@ func main() {
 	
 	fmt.Println(string(data))
 
-
 	// Make a copy of the YAML and fill it in with the available info
+	
 
 	// Return the YAML
 
