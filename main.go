@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"ledgr/sheets"
+
 	"gopkg.in/yaml.v3"
 	"github.com/santhosh-tekuri/jsonschema/v5"
 )
@@ -28,7 +30,7 @@ func loadSchema(schemaPath string) (*jsonschema.Schema, error) {
 	return compiler.Compile(schemaPath)
 }
 
-func sheetToJSONInstance(sheet CharacterSheet) (any, error) {
+func sheetToJSONInstance(sheet sheets.CharacterSheet) (any, error) {
 	data, err := json.Marshal(sheet)
 	if err != nil {
 		return nil, err
@@ -45,13 +47,13 @@ func sheetToJSONInstance(sheet CharacterSheet) (any, error) {
 func main() {
 	
 	// Take in a file and verify that it is a valid YAML
-	file, err := os.ReadFile("assets/schema/schema_v1_template.yaml")
+	file, err := os.ReadFile("sheets/assets/schema/schema_v1_template.yaml")
 	if err != nil {
 		panic(err)
 	}
 
 	// Unmarshel YAML 
-	var characterSheet CharacterSheet
+	var characterSheet sheets.CharacterSheet
 	err = yaml.Unmarshal(file, &characterSheet)
 	if err != nil {
 		panic(err)
@@ -64,7 +66,7 @@ func main() {
 	}
 
 	// Load json schema
-	schema, err := loadSchema("assets/schema/character_sheet.schema.json")
+	schema, err := loadSchema("sheets/assets/schema/character_sheet.schema.json")
 	if err != nil {
 		panic(err)
 	}

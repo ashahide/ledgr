@@ -1,4 +1,4 @@
-package main
+package sheets
 
 /*
 Package ledgr defines the canonical data model for a YAML-based
