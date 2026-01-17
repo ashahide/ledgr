@@ -45,7 +45,7 @@ func sheetToJSONInstance(sheet CharacterSheet) (any, error) {
 func main() {
 	
 	// Take in a file and verify that it is a valid YAML
-	file, err := os.ReadFile("assets/schema_v1_template.yaml")
+	file, err := os.ReadFile("assets/schema/schema_v1_template.yaml")
 	if err != nil {
 		panic(err)
 	}
