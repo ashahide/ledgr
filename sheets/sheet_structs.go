@@ -66,6 +66,14 @@ const (
 	Charisma     Ability = "charisma"
 )
 
+var AllAbilities = []Ability{
+	Strength,
+	Dexterity,
+	Constitution,
+	Intelligence,
+	Wisdom,
+	Charisma,
+}
 
 type SingleAttribute struct {
 	Score    int `yaml:"score" json:"score"`
@@ -263,6 +271,27 @@ const (
 	Survival       Skill = "survival"
 )
 
+var SkillToAbility = map[Skill]Ability{
+	Acrobatics:     Dexterity,
+	AnimalHandling: Wisdom,
+	Arcana:         Intelligence,
+	Athletics:      Strength,
+	Deception:      Charisma,
+	History:        Intelligence,
+	Insight:        Wisdom,
+	Intimidation:   Charisma,
+	Investigation:  Intelligence,
+	Medicine:       Wisdom,
+	Nature:         Intelligence,
+	Perception:     Wisdom,
+	Performance:    Charisma,
+	Persuasion:     Charisma,
+	Religion:       Intelligence,
+	SleightOfHand:  Dexterity,
+	Stealth:        Dexterity,
+	Survival:       Wisdom,
+}
+
 
 
 type SingleSkill struct {
@@ -333,7 +362,7 @@ func (s *SkillStats) GetModifier(skill Skill) int {
 	case Survival:
 		return s.Survival.Modifier
 	default:
-		return nil
+		return -999
 	}
 }
 

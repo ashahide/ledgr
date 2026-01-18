@@ -4,7 +4,6 @@ import (
 	"os"
 	"encoding/json"
 	"fmt"
-	"errors"
 
 	"ledgr/sheets"
 	"ledgr/mechanics"
@@ -46,6 +45,56 @@ func sheetToJSONInstance(sheet sheets.CharacterSheet) (any, error) {
 	return instance, nil
 }
 
+func calcAllAbilityModifiers(sheet *sheets.AttributeStats) error {
+
+	for _, ability := range sheets.AllAbilities {
+
+		// Get the score
+		score := sheet.GetScore(ability)
+
+		// Calculate Modifier
+		mod, err := mechanics.CalcAbilityModifier(score)
+
+		if err != nil {
+			return err
+		}
+
+		// Set the Modifier
+		sheet.SetModifier(ability, mod)
+
+	}
+
+	return nil
+}
+
+
+func setAllSavingThrowModifiers(savingThrow *sheets.SavingThrowStats, abilities *sheets.AttributeStats) {
+
+	for _, ability := range sheets.AllAbilities {
+
+		// Get the modifier
+		mod := abilities.GetModifier(ability)
+
+		// Set the Modifier
+		savingThrow.SetModifier(ability, mod)
+
+	}
+}
+
+
+func setAllSkillModifiers(skills *sheets.SkillStats, abilities *sheets.AttributeStats) {
+
+	for skill, ability := range sheets.SkillToAbility {
+		// Get the ability modifier 
+		abilityMod := abilities.GetModifier(ability)
+
+		// Update the skill
+		skills.SetModifier(skill, abilityMod)
+	}
+
+
+}
+
 
 func main() {
 	
@@ -79,15 +128,15 @@ func main() {
 	// Validate schema
 	schema.Validate(&characterSheetJsonInstance)
 
-	// Update all ability modifiers
-	err = updateAllAttributeModifiers(&characterSheet.Attributes)
-	if err != nil {
-		panic(err)
-	}	
+	// Calculate ability modifiers
+	calcAllAbilityModifiers(&characterSheet.Attributes)
 
-	// Update Saving Throw Modifiers
-	err = updateSavingThrowModifiers(&characterSheet.SavingThrows, &characterSheet.Attributes)
-	
+	// Set saving throw modifiers
+	setAllSavingThrowModifiers(&characterSheet.SavingThrows, &characterSheet.Attributes )
+
+	// Set skill modifiers
+	setAllSkillModifiers(&characterSheet.Skills, &characterSheet.Attributes)
+
 	// Convert back to YAML
 	outputYaml, err := yaml.Marshal(&characterSheet)
 	if err != nil {
