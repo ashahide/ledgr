@@ -45,7 +45,7 @@ type CharacterBasicStats struct {
 	Name      string `yaml:"name" json:"name"`
 	Age       uint16 `yaml:"age" json:"age"`
 	Class     string `yaml:"class" json:"class"`
-	Level     uint8  `yaml:"level" json:"level"`
+	Level     uint  `yaml:"level" json:"level"`
 	Race      string `yaml:"race" json:"race"`
 	Alignment string `yaml:"alignment" json:"alignment"`
 }
@@ -58,7 +58,7 @@ ABILITY SCORES
 
 type SingleAttribute struct {
 	Score    uint `yaml:"score" json:"score"`
-	Modifier *int `yaml:"modifier" json:"modifier"`
+	Modifier int `yaml:"modifier" json:"modifier"`
 }
 
 type AttributeStats struct {
@@ -80,7 +80,7 @@ type SingleSavingThrow struct {
 	Proficient bool  `yaml:"proficient" json:"proficient"`
 	Expertise  bool  `yaml:"expertise" json:"expertise"`
 	MiscBonus  int  `yaml:"misc_bonus" json:"misc_bonus"`
-	Modifier   *int `yaml:"modifier" json:"modifier"`
+	Modifier   int `yaml:"modifier" json:"modifier"`
 }
 
 type SavingThrowStats struct {

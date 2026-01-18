@@ -3,8 +3,11 @@ package main
 import (
 	"os"
 	"encoding/json"
+	"fmt"
+	"errors"
 
 	"ledgr/sheets"
+	"ledgr/mechanics"
 
 	"gopkg.in/yaml.v3"
 	"github.com/santhosh-tekuri/jsonschema/v5"
@@ -43,10 +46,48 @@ func sheetToJSONInstance(sheet sheets.CharacterSheet) (any, error) {
 	return instance, nil
 }
 
+func addAttributeModifier(attribute *sheets.SingleAttribute) error {
+	// Check that attribute exists
+	if attribute == nil {
+		return errors.New("Attribute is nil")
+	}
+	// Check that the score is >= 0
+	if attribute.Score < 0 {
+		return errors.New("Input attribute score was <0 and is not allowed.")
+	}
+
+	// Calculate modifier
+	mod, err := mechanics.CalcAbilityModifier(attribute.Score)
+
+	if err != nil {
+		return err
+	}
+
+	// Add modifier
+	attribute.Modifier = mod
+
+	return nil
+	
+}
+
+func updateAllAttributeModifiers(sheet *sheets.AttributeStats) error {
+
+	err := addAttributeModifier(&sheet.Strength)
+	err = addAttributeModifier(&sheet.Dexterity)
+	err = addAttributeModifier(&sheet.Constitution)
+	err = addAttributeModifier(&sheet.Intelligence)
+	err = addAttributeModifier(&sheet.Wisdom)
+	err = addAttributeModifier(&sheet.Charisma)
+
+	return err
+	}
+
 func main() {
 	
 	// Take in a file and verify that it is a valid YAML
-	file, err := os.ReadFile("sheets/assets/schema/schema_v1_template.yaml")
+	filePath := "sheets/assets/schema/schema_v1_template.yaml"
+	fmt.Println(">>> Reading sheet:", filePath)
+	file, err := os.ReadFile(filePath)
 	if err != nil {
 		panic(err)
 	}
@@ -73,9 +114,19 @@ func main() {
 	// Validate schema
 	schema.Validate(&characterSheetJsonInstance)
 
-	// Make a copy of the YAML and fill it in with the available info
+	// Update all ability modifiers
+	err = updateAllAttributeModifiers(&characterSheet.Attributes)
+	if err != nil {
+		panic(err)
+	}	
 	
+	// Convert back to YAML
+	outputYaml, err := yaml.Marshal(&characterSheet)
+	if err != nil {
+		panic(err)
+	}
 
 	// Return the YAML
+	os.WriteFile("character_out.yaml", outputYaml, 0644)
 
 }
