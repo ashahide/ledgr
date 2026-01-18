@@ -10,7 +10,6 @@ Design philosophy:
 - Go structs are the *authoritative schema*
 - Some fields are user-authored "truths"
 - Some fields are derived and may be omitted or validated
-- Pointer fields (*T) indicate optional or overrideable values
 */
 
 /*
@@ -20,7 +19,7 @@ ROOT CHARACTER DOCUMENT
 */
 
 type CharacterSheet struct {
-	SchemaVersion uint16 `yaml:"schema_version" json:"schema_version"`
+	SchemaVersion int `yaml:"schema_version" json:"schema_version"`
 
 	Basics       CharacterBasicStats `yaml:"basics" json:"basics"`
 	Attributes   AttributeStats      `yaml:"attributes" json:"attributes"`
@@ -43,9 +42,9 @@ BASIC CHARACTER METADATA
 
 type CharacterBasicStats struct {
 	Name      string `yaml:"name" json:"name"`
-	Age       uint16 `yaml:"age" json:"age"`
+	Age       int `yaml:"age" json:"age"`
 	Class     string `yaml:"class" json:"class"`
-	Level     uint  `yaml:"level" json:"level"`
+	Level     int  `yaml:"level" json:"level"`
 	Race      string `yaml:"race" json:"race"`
 	Alignment string `yaml:"alignment" json:"alignment"`
 }
@@ -56,8 +55,20 @@ ABILITY SCORES
 ================
 */
 
+type Ability string
+
+const (
+	Strength     Ability = "strength"
+	Dexterity    Ability = "dexterity"
+	Constitution Ability = "constitution"
+	Intelligence Ability = "intelligence"
+	Wisdom       Ability = "wisdom"
+	Charisma     Ability = "charisma"
+)
+
+
 type SingleAttribute struct {
-	Score    uint `yaml:"score" json:"score"`
+	Score    int `yaml:"score" json:"score"`
 	Modifier int `yaml:"modifier" json:"modifier"`
 }
 
@@ -69,6 +80,81 @@ type AttributeStats struct {
 	Wisdom       SingleAttribute `yaml:"wisdom" json:"wisdom"`
 	Charisma     SingleAttribute `yaml:"charisma" json:"charisma"`
 }
+
+func (a *AttributeStats) GetModifier(ability Ability) int {
+	switch ability {
+	case Strength:
+		return a.Strength.Modifier
+	case Dexterity:
+		return a.Dexterity.Modifier
+	case Constitution:
+		return a.Constitution.Modifier
+	case Intelligence:
+		return a.Intelligence.Modifier
+	case Wisdom:
+		return a.Wisdom.Modifier
+	case Charisma:
+		return a.Charisma.Modifier
+	default:
+		return -999 
+	}
+}
+
+func (a *AttributeStats) SetModifier(ability Ability, mod int) {
+	switch ability {
+	case Strength:
+		a.Strength.Modifier = mod
+	case Dexterity:
+		a.Dexterity.Modifier = mod
+	case Constitution:
+		a.Constitution.Modifier = mod
+	case Intelligence:
+		a.Intelligence.Modifier = mod
+	case Wisdom:
+		a.Wisdom.Modifier = mod
+	case Charisma:
+		a.Charisma.Modifier = mod
+	}
+}
+
+func (a *AttributeStats) GetScore(ability Ability) int {
+	switch ability {
+	case Strength:
+		return a.Strength.Score
+	case Dexterity:
+		return a.Dexterity.Score
+	case Constitution:
+		return a.Constitution.Score
+	case Intelligence:
+		return a.Intelligence.Score
+	case Wisdom:
+		return a.Wisdom.Score
+	case Charisma:
+		return a.Charisma.Score
+	default:
+		return -999
+	}
+}
+
+func (a *AttributeStats) GetAttribute(ability Ability) *SingleAttribute {
+	switch ability {
+	case Strength:
+		return &a.Strength
+	case Dexterity:
+		return &a.Dexterity
+	case Constitution:
+		return &a.Constitution
+	case Intelligence:
+		return &a.Intelligence
+	case Wisdom:
+		return &a.Wisdom
+	case Charisma:
+		return &a.Charisma
+	default:
+		return nil
+	}
+}
+
 
 /*
 ================
@@ -92,17 +178,98 @@ type SavingThrowStats struct {
 	Charisma     SingleSavingThrow `yaml:"charisma" json:"charisma"`
 }
 
+
+func (s *SavingThrowStats) GetModifier(ability Ability) int {
+	switch ability {
+	case Strength:
+		return s.Strength.Modifier
+	case Dexterity:
+		return s.Dexterity.Modifier
+	case Constitution:
+		return s.Constitution.Modifier
+	case Intelligence:
+		return s.Intelligence.Modifier
+	case Wisdom:
+		return s.Wisdom.Modifier
+	case Charisma:
+		return s.Charisma.Modifier
+	default:
+		return -999
+	}
+}
+
+func (s *SavingThrowStats) SetModifier(ability Ability, mod int) {
+	switch ability {
+	case Strength:
+		s.Strength.Modifier = mod
+	case Dexterity:
+		s.Dexterity.Modifier = mod
+	case Constitution:
+		s.Constitution.Modifier = mod
+	case Intelligence:
+		s.Intelligence.Modifier = mod
+	case Wisdom:
+		s.Wisdom.Modifier = mod
+	case Charisma:
+		s.Charisma.Modifier = mod
+	}
+}
+
+func (s *SavingThrowStats) GetSavingThrow(ability Ability) *SingleSavingThrow {
+	switch ability {
+	case Strength:
+		return &s.Strength
+	case Dexterity:
+		return &s.Dexterity
+	case Constitution:
+		return &s.Constitution
+	case Intelligence:
+		return &s.Intelligence
+	case Wisdom:
+		return &s.Wisdom
+	case Charisma:
+		return &s.Charisma
+	default:
+		return nil
+	}
+}
+
 /*
 =========
 SKILLS
 =========
 */
 
+type Skill string
+
+const (
+	Acrobatics     Skill = "acrobatics"
+	AnimalHandling Skill = "animal_handling"
+	Arcana         Skill = "arcana"
+	Athletics      Skill = "athletics"
+	Deception      Skill = "deception"
+	History        Skill = "history"
+	Insight        Skill = "insight"
+	Intimidation   Skill = "intimidation"
+	Investigation  Skill = "investigation"
+	Medicine       Skill = "medicine"
+	Nature         Skill = "nature"
+	Perception     Skill = "perception"
+	Performance    Skill = "performance"
+	Persuasion     Skill = "persuasion"
+	Religion       Skill = "religion"
+	SleightOfHand  Skill = "sleight_of_hand"
+	Stealth        Skill = "stealth"
+	Survival       Skill = "survival"
+)
+
+
+
 type SingleSkill struct {
 	Proficient       bool   `yaml:"proficient" json:"proficient"`
 	Expertise        bool   `yaml:"expertise" json:"expertise"`
 	MiscBonus        int   `yaml:"misc_bonus" json:"misc_bonus"`
-	Modifier         *int  `yaml:"modifier" json:"modifier"`
+	Modifier         int  `yaml:"modifier" json:"modifier"`
 }
 
 type SkillStats struct {
@@ -126,6 +293,136 @@ type SkillStats struct {
 	Survival       SingleSkill `yaml:"survival" json:"survival"`
 }
 
+
+func (s *SkillStats) GetModifier(skill Skill) int {
+	switch skill {
+	case Acrobatics:
+		return s.Acrobatics.Modifier
+	case AnimalHandling:
+		return s.AnimalHandling.Modifier
+	case Arcana:
+		return s.Arcana.Modifier
+	case Athletics:
+		return s.Athletics.Modifier
+	case Deception:
+		return s.Deception.Modifier
+	case History:
+		return s.History.Modifier
+	case Insight:
+		return s.Insight.Modifier
+	case Intimidation:
+		return s.Intimidation.Modifier
+	case Investigation:
+		return s.Investigation.Modifier
+	case Medicine:
+		return s.Medicine.Modifier
+	case Nature:
+		return s.Nature.Modifier
+	case Perception:
+		return s.Perception.Modifier
+	case Performance:
+		return s.Performance.Modifier
+	case Persuasion:
+		return s.Persuasion.Modifier
+	case Religion:
+		return s.Religion.Modifier
+	case SleightOfHand:
+		return s.SleightOfHand.Modifier
+	case Stealth:
+		return s.Stealth.Modifier
+	case Survival:
+		return s.Survival.Modifier
+	default:
+		return nil
+	}
+}
+
+func (s *SkillStats) SetModifier(skill Skill, mod int) {
+	switch skill {
+	case Acrobatics:
+		s.Acrobatics.Modifier = mod
+	case AnimalHandling:
+		s.AnimalHandling.Modifier = mod
+	case Arcana:
+		s.Arcana.Modifier = mod
+	case Athletics:
+		s.Athletics.Modifier = mod
+	case Deception:
+		s.Deception.Modifier = mod
+	case History:
+		s.History.Modifier = mod
+	case Insight:
+		s.Insight.Modifier = mod
+	case Intimidation:
+		s.Intimidation.Modifier = mod
+	case Investigation:
+		s.Investigation.Modifier = mod
+	case Medicine:
+		s.Medicine.Modifier = mod
+	case Nature:
+		s.Nature.Modifier = mod
+	case Perception:
+		s.Perception.Modifier = mod
+	case Performance:
+		s.Performance.Modifier = mod
+	case Persuasion:
+		s.Persuasion.Modifier = mod
+	case Religion:
+		s.Religion.Modifier = mod
+	case SleightOfHand:
+		s.SleightOfHand.Modifier = mod
+	case Stealth:
+		s.Stealth.Modifier = mod
+	case Survival:
+		s.Survival.Modifier = mod
+	}
+}
+
+
+func (s *SkillStats) GetSkill(skill Skill) *SingleSkill {
+	switch skill {
+	case Acrobatics:
+		return &s.Acrobatics
+	case AnimalHandling:
+		return &s.AnimalHandling
+	case Arcana:
+		return &s.Arcana
+	case Athletics:
+		return &s.Athletics
+	case Deception:
+		return &s.Deception
+	case History:
+		return &s.History
+	case Insight:
+		return &s.Insight
+	case Intimidation:
+		return &s.Intimidation
+	case Investigation:
+		return &s.Investigation
+	case Medicine:
+		return &s.Medicine
+	case Nature:
+		return &s.Nature
+	case Perception:
+		return &s.Perception
+	case Performance:
+		return &s.Performance
+	case Persuasion:
+		return &s.Persuasion
+	case Religion:
+		return &s.Religion
+	case SleightOfHand:
+		return &s.SleightOfHand
+	case Stealth:
+		return &s.Stealth
+	case Survival:
+		return &s.Survival
+	default:
+		return nil
+	}
+}
+
+
 /*
 ========
 HEALTH
@@ -133,9 +430,9 @@ HEALTH
 */
 
 type HealthStats struct {
-	Current uint `yaml:"current" json:"current"`
-	Max     uint `yaml:"max" json:"max"`
-	Temp    uint `yaml:"temp" json:"temp"`
+	Current int `yaml:"current" json:"current"`
+	Max     int `yaml:"max" json:"max"`
+	Temp    int `yaml:"temp" json:"temp"`
 }
 
 /*
@@ -145,21 +442,21 @@ COMBAT / DEFENSE / MOVEMENT
 */
 
 type SpeedStats struct {
-	Walk   uint `yaml:"walk" json:"walk"`
-	Fly    uint `yaml:"fly" json:"fly"`
-	Swim   uint `yaml:"swim" json:"swim"`
-	Climb  uint `yaml:"climb" json:"climb"`
-	Burrow uint `yaml:"burrow" json:"burrow"`
+	Walk   int `yaml:"walk" json:"walk"`
+	Fly    int `yaml:"fly" json:"fly"`
+	Swim   int `yaml:"swim" json:"swim"`
+	Climb  int `yaml:"climb" json:"climb"`
+	Burrow int `yaml:"burrow" json:"burrow"`
 }
 
 type InitiativeStats struct {
 	MiscBonus int  `yaml:"misc_bonus" json:"misc_bonus"`
-	Total     *int `yaml:"total" json:"total"`
+	Total     int `yaml:"total" json:"total"`
 }
 
 type ArmorClassStats struct {
 	MiscBonus int   `yaml:"misc_bonus" json:"misc_bonus"`
-	Total     *uint `yaml:"total" json:"total"`
+	Total     *int `yaml:"total" json:"total"`
 }
 
 type CombatStats struct {
@@ -176,7 +473,7 @@ SPELLCASTING STATS
 
 type SpellcastingStats struct {
 	SpellcastingAbility string `yaml:"spellcasting_ability" json:"spellcasting_ability"`
-	SpellSaveDC         *int  `yaml:"spell_save_dc" json:"spell_save_dc"`
-	SpellAttackBonus    *int  `yaml:"spell_attack_bonus" json:"spell_attack_bonus"`
+	SpellSaveDC         int  `yaml:"spell_save_dc" json:"spell_save_dc"`
+	SpellAttackBonus    int  `yaml:"spell_attack_bonus" json:"spell_attack_bonus"`
 	MiscBonus           int   `yaml:"misc_bonus" json:"misc_bonus"`
 }

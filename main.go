@@ -46,52 +46,6 @@ func sheetToJSONInstance(sheet sheets.CharacterSheet) (any, error) {
 	return instance, nil
 }
 
-func addAttributeModifier(attribute *sheets.SingleAttribute) error {
-	// Check that attribute exists
-	if attribute == nil {
-		return errors.New("Attribute is nil")
-	}
-	// Check that the score is >= 0
-	if attribute.Score < 0 {
-		return errors.New("Input attribute score was <0 and is not allowed.")
-	}
-
-	// Calculate modifier
-	mod, err := mechanics.CalcAbilityModifier(attribute.Score)
-
-	if err != nil {
-		return err
-	}
-
-	// Add modifier
-	attribute.Modifier = mod
-
-	return nil
-	
-}
-
-func updateAllAttributeModifiers(sheet *sheets.AttributeStats) error {
-
-	err := addAttributeModifier(&sheet.Strength)
-	err = addAttributeModifier(&sheet.Dexterity)
-	err = addAttributeModifier(&sheet.Constitution)
-	err = addAttributeModifier(&sheet.Intelligence)
-	err = addAttributeModifier(&sheet.Wisdom)
-	err = addAttributeModifier(&sheet.Charisma)
-
-	return err
-}
-
-func updateSavingThrowModifiers(savingThrows *sheets.SavingThrowStats, attributes *sheets.AttributeStats) error {
-	savingThrows.Strength.Modifier = attributes.Strength.Modifier
-	savingThrows.Dexterity.Modifier = attributes.Dexterity.Modifier
-	savingThrows.Constitution.Modifier = attributes.Constitution.Modifier
-	savingThrows.Intelligence.Modifier = attributes.Intelligence.Modifier
-	savingThrows.Wisdom.Modifier = attributes.Wisdom.Modifier
-	savingThrows.Charisma.Modifier = attributes.Charisma.Modifier
-
-	return nil
-}
 
 func main() {
 	
