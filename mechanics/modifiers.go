@@ -9,7 +9,7 @@ type ModifierNumeric interface {
 	~int | ~uint
 }
 
-func CalcAbilityModifier[T ModifierNumeric](stat T) (modifier int32, err error) {
+func CalcAbilityModifier[T ModifierNumeric](stat T) (modifier int, err error) {
 
 	/*
 	This takes an ability scores and returns a modifier
@@ -24,7 +24,7 @@ func CalcAbilityModifier[T ModifierNumeric](stat T) (modifier int32, err error) 
 	statAsFloat := float64(stat)
 
 	// Calculate the modifier
-	modifier = int32(math.Floor((statAsFloat - 10.0) / 2.0))
+	modifier = int(math.Floor((statAsFloat - 10.0) / 2.0))
 
 	return modifier, nil
 }

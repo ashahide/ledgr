@@ -57,8 +57,8 @@ ABILITY SCORES
 */
 
 type SingleAttribute struct {
-	Score    uint8 `yaml:"score" json:"score"`
-	Modifier *int8 `yaml:"modifier" json:"modifier"`
+	Score    uint `yaml:"score" json:"score"`
+	Modifier *int `yaml:"modifier" json:"modifier"`
 }
 
 type AttributeStats struct {
@@ -79,8 +79,8 @@ SAVING THROWS
 type SingleSavingThrow struct {
 	Proficient bool  `yaml:"proficient" json:"proficient"`
 	Expertise  bool  `yaml:"expertise" json:"expertise"`
-	MiscBonus  int8  `yaml:"misc_bonus" json:"misc_bonus"`
-	Modifier   *int8 `yaml:"modifier" json:"modifier"`
+	MiscBonus  int  `yaml:"misc_bonus" json:"misc_bonus"`
+	Modifier   *int `yaml:"modifier" json:"modifier"`
 }
 
 type SavingThrowStats struct {
@@ -101,9 +101,9 @@ SKILLS
 type SingleSkill struct {
 	Proficient       bool   `yaml:"proficient" json:"proficient"`
 	Expertise        bool   `yaml:"expertise" json:"expertise"`
-	MiscBonus        int8   `yaml:"misc_bonus" json:"misc_bonus"`
+	MiscBonus        int   `yaml:"misc_bonus" json:"misc_bonus"`
 	RelatedAttribute string `yaml:"related_attribute" json:"related_attribute"`
-	Modifier         *int8  `yaml:"modifier" json:"modifier"`
+	Modifier         *int  `yaml:"modifier" json:"modifier"`
 }
 
 type SkillStats struct {
@@ -134,9 +134,9 @@ HEALTH
 */
 
 type HealthStats struct {
-	Current uint16 `yaml:"current" json:"current"`
-	Max     uint16 `yaml:"max" json:"max"`
-	Temp    uint16 `yaml:"temp" json:"temp"`
+	Current uint `yaml:"current" json:"current"`
+	Max     uint `yaml:"max" json:"max"`
+	Temp    uint `yaml:"temp" json:"temp"`
 }
 
 /*
@@ -146,21 +146,21 @@ COMBAT / DEFENSE / MOVEMENT
 */
 
 type SpeedStats struct {
-	Walk   uint16 `yaml:"walk" json:"walk"`
-	Fly    uint16 `yaml:"fly" json:"fly"`
-	Swim   uint16 `yaml:"swim" json:"swim"`
-	Climb  uint16 `yaml:"climb" json:"climb"`
-	Burrow uint16 `yaml:"burrow" json:"burrow"`
+	Walk   uint `yaml:"walk" json:"walk"`
+	Fly    uint `yaml:"fly" json:"fly"`
+	Swim   uint `yaml:"swim" json:"swim"`
+	Climb  uint `yaml:"climb" json:"climb"`
+	Burrow uint `yaml:"burrow" json:"burrow"`
 }
 
 type InitiativeStats struct {
-	MiscBonus int8  `yaml:"misc_bonus" json:"misc_bonus"`
-	Total     *int8 `yaml:"total" json:"total"`
+	MiscBonus int  `yaml:"misc_bonus" json:"misc_bonus"`
+	Total     *int `yaml:"total" json:"total"`
 }
 
 type ArmorClassStats struct {
-	MiscBonus int8   `yaml:"misc_bonus" json:"misc_bonus"`
-	Total     *uint8 `yaml:"total" json:"total"`
+	MiscBonus int   `yaml:"misc_bonus" json:"misc_bonus"`
+	Total     *uint `yaml:"total" json:"total"`
 }
 
 type CombatStats struct {
@@ -177,7 +177,7 @@ SPELLCASTING STATS
 
 type SpellcastingStats struct {
 	SpellcastingAbility string `yaml:"spellcasting_ability" json:"spellcasting_ability"`
-	SpellSaveDC         *int8  `yaml:"spell_save_dc" json:"spell_save_dc"`
-	SpellAttackBonus    *int8  `yaml:"spell_attack_bonus" json:"spell_attack_bonus"`
-	MiscBonus           int8   `yaml:"misc_bonus" json:"misc_bonus"`
+	SpellSaveDC         *int  `yaml:"spell_save_dc" json:"spell_save_dc"`
+	SpellAttackBonus    *int  `yaml:"spell_attack_bonus" json:"spell_attack_bonus"`
+	MiscBonus           int   `yaml:"misc_bonus" json:"misc_bonus"`
 }

@@ -3,7 +3,6 @@ package main
 import (
 	"os"
 	"encoding/json"
-	"fmt"
 
 	"ledgr/sheets"
 
@@ -73,11 +72,6 @@ func main() {
 
 	// Validate schema
 	schema.Validate(&characterSheetJsonInstance)
-
-	// Validate that is has the starting information that is necessary
-	data, err := json.Marshal(characterSheetJsonInstance)
-	
-	fmt.Println(string(data))
 
 	// Make a copy of the YAML and fill it in with the available info
 	
