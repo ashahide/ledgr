@@ -89,6 +89,8 @@ func updateSavingThrowModifiers(savingThrows *sheets.SavingThrowStats, attribute
 	savingThrows.Intelligence.Modifier = attributes.Intelligence.Modifier
 	savingThrows.Wisdom.Modifier = attributes.Wisdom.Modifier
 	savingThrows.Charisma.Modifier = attributes.Charisma.Modifier
+
+	return nil
 }
 
 func main() {
@@ -128,6 +130,9 @@ func main() {
 	if err != nil {
 		panic(err)
 	}	
+
+	// Update Saving Throw Modifiers
+	err = updateSavingThrowModifiers(&characterSheet.SavingThrows, &characterSheet.Attributes)
 	
 	// Convert back to YAML
 	outputYaml, err := yaml.Marshal(&characterSheet)

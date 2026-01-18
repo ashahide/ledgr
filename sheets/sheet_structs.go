@@ -102,7 +102,6 @@ type SingleSkill struct {
 	Proficient       bool   `yaml:"proficient" json:"proficient"`
 	Expertise        bool   `yaml:"expertise" json:"expertise"`
 	MiscBonus        int   `yaml:"misc_bonus" json:"misc_bonus"`
-	RelatedAttribute string `yaml:"related_attribute" json:"related_attribute"`
 	Modifier         *int  `yaml:"modifier" json:"modifier"`
 }
 
