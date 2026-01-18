@@ -30,3 +30,8 @@ go.work.sum
 # Editor/IDE
 # .idea/
 # .vscode/
+
+
+# Test Files
+test_*.yaml
+test_*.json
