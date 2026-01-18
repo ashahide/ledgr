@@ -1,4 +1,4 @@
-package mechanics
+package sheets
 
 import "testing"
 
