@@ -80,7 +80,16 @@ func updateAllAttributeModifiers(sheet *sheets.AttributeStats) error {
 	err = addAttributeModifier(&sheet.Charisma)
 
 	return err
-	}
+}
+
+func updateSavingThrowModifiers(savingThrows *sheets.SavingThrowStats, attributes *sheets.AttributeStats) error {
+	savingThrows.Strength.Modifier = attributes.Strength.Modifier
+	savingThrows.Dexterity.Modifier = attributes.Dexterity.Modifier
+	savingThrows.Constitution.Modifier = attributes.Constitution.Modifier
+	savingThrows.Intelligence.Modifier = attributes.Intelligence.Modifier
+	savingThrows.Wisdom.Modifier = attributes.Wisdom.Modifier
+	savingThrows.Charisma.Modifier = attributes.Charisma.Modifier
+}
 
 func main() {
 	
