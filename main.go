@@ -4,6 +4,7 @@ import (
 	"os"
 	"encoding/json"
 	"fmt"
+	"flag"
 
 	"ledgr/sheets"
 
@@ -47,10 +48,15 @@ func sheetToJSONInstance(sheet sheets.CharacterSheet) (any, error) {
 
 func main() {
 	
+	// Define the parser
+	filePath := flag.String("f", "sheets/assets/schema/schema_v1_template.yaml", "Enter the file path") 
+
+	// Parse inputs
+	flag.Parse()
+
 	// Take in a file and verify that it is a valid YAML
-	filePath := "sheets/assets/schema/schema_v1_template.yaml"
-	fmt.Println(">>> Reading sheet:", filePath)
-	file, err := os.ReadFile(filePath)
+	fmt.Println(">>> Reading sheet:", *filePath)
+	file, err := os.ReadFile(*filePath)
 	if err != nil {
 		panic(err)
 	}
